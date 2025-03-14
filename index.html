@@ -21,10 +21,25 @@ console.log("Sfdc.canvas.client:", window.Sfdc && Sfdc.canvas ? Sfdc.canvas.clie
 
         function initCanvas() {
             // Wait for Salesforce to send signed request
-            Sfdc.canvas.onReady(function() {
+           /* Sfdc.canvas.onReady(function() {
                 let signedRequest = Sfdc.canvas.oauth.token();
-                parseSignedRequest(signedRequest, "3MVG9BiWFlgZEySVWf1LWOJSqbXFhCl50dl9WYL03Efs8jG4sO8yTzkj0.PVusb6U1_FwQd5GheXFWP6gM.BE"); // Replace with your Consumer Secret
-            });
+                parseSignedRequest(signedRequest, "3MVG9BiWFlgZEySVWf1LWOJSqbXFhCl50dl9WYL03Efs8jG4sO8yTzkj0.PVusb6U1_FwQd5GheXFWP6gM.BE");
+            });*/
+            Sfdc.canvas.onReady(function() {
+    console.log("Canvas App Ready!");
+
+    Sfdc.canvas.client.refreshSignedRequest(function(response) {
+        console.log("Signed Request Response:", response);
+        
+        if (response && response.payload) {
+            console.log("Custom Parameters Received:", response.payload);
+            document.getElementById("params-display").innerText = 
+                JSON.stringify(response.payload, null, 2);
+        } else {
+            console.log("No custom parameters found.");
+        }
+    });
+});
         }
     </script>
     
