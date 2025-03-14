@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>My GitHub Pages Site</title>
-  </head>
-  <body>
-    <h1>Hello world!</h1>
-    <p>Welcome to my GitHub Pages site!</p>
-  </body>
+<head>
+    <title>Salesforce Canvas App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha256.js"></script>
+    <script>
+        function parseSignedRequest(signedRequest, secret) {
+            let [signature, payload] = signedRequest.split('.');
+            let decodedPayload = JSON.parse(atob(payload));
+
+            // Display received parameters
+            document.getElementById('output').innerText = JSON.stringify(decodedPayload, null, 2);
+        }
+
+        function initCanvas() {
+            // Wait for Salesforce to send signed request
+            Sfdc.canvas.onReady(function() {
+                let signedRequest = Sfdc.canvas.oauth.token();
+                parseSignedRequest(signedRequest, "3MVG9BiWFlgZEySVWf1LWOJSqbXFhCl50dl9WYL03Efs8jG4sO8yTzkj0.PVusb6U1_FwQd5GheXFWP6gM.BE"); // Replace with your Consumer Secret
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sfdc-canvas/29.0/canvas-all.min.js"></script>
+</head>
+<body onload="initCanvas()">
+    <h1>Salesforce Canvas App</h1>
+    <pre id="output">Waiting for Salesforce Data...</pre>
+</body>
 </html>
