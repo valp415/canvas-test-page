@@ -15,7 +15,7 @@
 
     <script>
         // Ensure the script only runs when the Canvas app is ready
-       Sfdc.canvas.onReady(function() {
+Sfdc.canvas.onReady(function() {
     console.log("Canvas App Ready!");
 
     // Fetch the signed request from Salesforce
@@ -25,8 +25,13 @@
         if (response && response.payload) {
             console.log("Full Payload:", response.payload);
             
-            // Extract parameters safely from the correct location
-            let customParams = response.payload.context.environment.parameters || {};
+            // Check if context and environment exist before accessing parameters
+            let customParams = 
+                response.payload.context && 
+                response.payload.context.environment && 
+                response.payload.context.environment.parameters 
+                ? response.payload.context.environment.parameters 
+                : {};
 
             console.log("Custom Parameters:", customParams);
 
@@ -34,7 +39,7 @@
             document.getElementById("params-display").innerText = 
                 JSON.stringify(customParams, null, 2);
         } else {
-            console.log("No parameters received.");
+            console.error("No valid payload received.");
             document.getElementById("params-display").innerText = 
                 "No parameters received.";
         }
