@@ -15,7 +15,7 @@
 
     <script>
         // Ensure the script only runs when the Canvas app is ready
-        Sfdc.canvas.onReady(function() {
+       Sfdc.canvas.onReady(function() {
     console.log("Canvas App Ready!");
 
     // Fetch the signed request from Salesforce
@@ -25,12 +25,8 @@
         if (response && response.payload) {
             console.log("Full Payload:", response.payload);
             
-            // Extract custom parameters safely
-            let customParams = response.payload.context && 
-                               response.payload.context.environment && 
-                               response.payload.context.environment.parameters 
-                               ? response.payload.context.environment.parameters 
-                               : {};
+            // Extract parameters safely from the correct location
+            let customParams = response.payload.context.environment.parameters || {};
 
             console.log("Custom Parameters:", customParams);
 
@@ -44,6 +40,7 @@
         }
     });
 });
+
 
     </script>
 </body>
