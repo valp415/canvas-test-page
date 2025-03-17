@@ -1,51 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salesforce Canvas App</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.3.1/sha256.js"></script>
-    <script src="https://dmvnv--fmsdev.sandbox.my.salesforce.com/canvas/sdk/js/canvas-all.js"></script>
-    <script>
-        console.log("Checking if Sfdc is available...");
-console.log("Sfdc:", window.Sfdc);
-console.log("Sfdc.canvas:", window.Sfdc ? Sfdc.canvas : "Not Available");
-console.log("Sfdc.canvas.client:", window.Sfdc && Sfdc.canvas ? Sfdc.canvas.client : "Not Available");
-        
-        function parseSignedRequest(signedRequest, secret) {
-            let [signature, payload] = signedRequest.split('.');
-            let decodedPayload = JSON.parse(atob(payload));
-
-            // Display received parameters
-            document.getElementById('output').innerText = JSON.stringify(decodedPayload, null, 2);
-        }
-
-        function initCanvas() {
-            // Wait for Salesforce to send signed request
-           /* Sfdc.canvas.onReady(function() {
-                let signedRequest = Sfdc.canvas.oauth.token();
-                parseSignedRequest(signedRequest, "3MVG9BiWFlgZEySVWf1LWOJSqbXFhCl50dl9WYL03Efs8jG4sO8yTzkj0.PVusb6U1_FwQd5GheXFWP6gM.BE");
-            });*/
-            Sfdc.canvas.onReady(function() {
-    console.log("Canvas App Ready!");
-
-    Sfdc.canvas.client.refreshSignedRequest(function(response) {
-        console.log("Signed Request Response:", response);
-        
-        if (response && response.payload) {
-            console.log("Custom Parameters Received:", response.payload);
-            document.getElementById("params-display").innerText = 
-                JSON.stringify(response.payload, null, 2);
-        } else {
-            console.log("No custom parameters found.");
-        }
-    });
-});
-        }
-    </script>
-    
 </head>
-<body onload="initCanvas()">
+<body>
     <h1>Salesforce Canvas App</h1>
-    <pre id="output">Waiting for Salesforce Data...</pre>
+    <p>Received Parameters from Salesforce:</p>
+    <pre id="params-display">Waiting for Salesforce Data... v2</pre>
+
+    <!-- Load Salesforce Canvas SDK -->
+    <script src="https://dmvnv--fmsdev.sandbox.my.salesforce.com/canvas/sdk/js/canvas-all.js"></script>
+
+    <script>
+        // Ensure the script only runs when the Canvas app is ready
+        Sfdc.canvas.onReady(function() {
+            console.log("Canvas App Ready!");
+
+            // Fetch the signed request from Salesforce
+            Sfdc.canvas.client.refreshSignedRequest(function(response) {
+                console.log("Signed Request Response:", response);
+
+                if (response && response.payload) {
+                    console.log("Custom Parameters Received:", response.payload);
+                    
+                    // Display the received parameters on the page
+                    document.getElementById("params-display").innerText = 
+                        JSON.stringify(response.payload, null, 2);
+                } else {
+                    console.log("No custom parameters found.");
+                    document.getElementById("params-display").innerText = 
+                        "No parameters received.";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
