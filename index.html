@@ -23,7 +23,8 @@ Sfdc.canvas.onReady(function() {
         console.log("Signed Request Response:", response);
 
         if (response && response.payload) {
-            console.log("Full Payload:", response.payload);
+            console.log("Full Payload:", JSON.stringify(response.payload, null, 2));
+
             
             // Check if context and environment exist before accessing parameters
             let customParams = 
