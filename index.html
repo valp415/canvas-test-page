@@ -16,25 +16,35 @@
     <script>
         // Ensure the script only runs when the Canvas app is ready
         Sfdc.canvas.onReady(function() {
-            console.log("Canvas App Ready!");
+    console.log("Canvas App Ready!");
 
-            // Fetch the signed request from Salesforce
-            Sfdc.canvas.client.refreshSignedRequest(function(response) {
-                console.log("Signed Request Response:", response);
+    // Fetch the signed request from Salesforce
+    Sfdc.canvas.client.refreshSignedRequest(function(response) {
+        console.log("Signed Request Response:", response);
 
-                if (response && response.payload) {
-                    console.log("Custom Parameters Received:", response.payload);
-                    
-                    // Display the received parameters on the page
-                    document.getElementById("params-display").innerText = 
-                        JSON.stringify(response.payload, null, 2);
-                } else {
-                    console.log("No custom parameters found.");
-                    document.getElementById("params-display").innerText = 
-                        "No parameters received.";
-                }
-            });
-        });
+        if (response && response.payload) {
+            console.log("Full Payload:", response.payload);
+            
+            // Extract custom parameters safely
+            let customParams = response.payload.context && 
+                               response.payload.context.environment && 
+                               response.payload.context.environment.parameters 
+                               ? response.payload.context.environment.parameters 
+                               : {};
+
+            console.log("Custom Parameters:", customParams);
+
+            // Display the parameters on the page
+            document.getElementById("params-display").innerText = 
+                JSON.stringify(customParams, null, 2);
+        } else {
+            console.log("No parameters received.");
+            document.getElementById("params-display").innerText = 
+                "No parameters received.";
+        }
+    });
+});
+
     </script>
 </body>
 </html>
