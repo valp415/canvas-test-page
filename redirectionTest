@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>POST Form</title>
+</head>
+<body>
+    <h2>Send POST to a URL</h2>
+
+    <form action="https://dmvnv--fmsdev.sandbox.my.site.com/indivservice/s/encryptedfield" method="POST">
+        <label for="token">JWT Token:</label>
+        <input type="text" name="jwt" id="token" placeholder="Paste your JWT here" required />
+
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
