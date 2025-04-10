@@ -1,31 +1,13 @@
 <html>
 <head>
-    <title>Send JWT via Fetch</title>
-    <script>
-        async function sendJwt() {
-            const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // your JWT here
-
-            try {
-                const response = await fetch("https://dmvnv--fmsdev.sandbox.my.site.com/indivservice/s/encryptedfield", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ jwt: jwtToken })
-                });
-
-                const result = await response.text();
-                console.log("Server response:", result);
-                alert("Server responded: " + result);
-            } catch (error) {
-                console.error("Error sending JWT:", error);
-                alert("Failed to send JWT");
-            }
-        }
-    </script>
+    <title>Redirect with POST</title>
 </head>
 <body>
-    <h2>Send JWT to Salesforce</h2>
-    <button onclick="sendJwt()">Send JWT</button>
+    <h2>POST JWT and Redirect</h2>
+
+    <form id="jwtForm" action="https://your.salesforce.site.com/apex/YourPage" method="POST">
+        <input type="hidden" name="jwt" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
+        <button type="submit">Submit JWT and Redirect</button>
+    </form>
 </body>
 </html>
