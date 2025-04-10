@@ -1,16 +1,31 @@
 <html>
 <head>
-    <title>POST Form</title>
+    <title>Send JWT via Fetch</title>
+    <script>
+        async function sendJwt() {
+            const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // your JWT here
+
+            try {
+                const response = await fetch("https://dmvnv--fmsdev.sandbox.my.site.com/indivservice/s/encryptedfield", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ jwt: jwtToken })
+                });
+
+                const result = await response.text();
+                console.log("Server response:", result);
+                alert("Server responded: " + result);
+            } catch (error) {
+                console.error("Error sending JWT:", error);
+                alert("Failed to send JWT");
+            }
+        }
+    </script>
 </head>
 <body>
-    <h2>Send POST to a URL</h2>
-
-    <form action="https://dmvnv--fmsdev.sandbox.my.site.com/indivservice/s/encryptedfield" method="POST">
-        <label for="token">JWT Token:</label>
-        <input type="text" name="jwt" id="token" placeholder="Paste your JWT here" required />
-
-        <br><br>
-        <input type="submit" value="Submit">
-    </form>
+    <h2>Send JWT to Salesforce</h2>
+    <button onclick="sendJwt()">Send JWT</button>
 </body>
 </html>
